@@ -4,7 +4,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    search = request.args.get('search')
+    if not search:
+    	return render_template('index.html')
+
+    return 'Hasil search adalah ' + search
+
 
 # dinamic url with string
 @app.route('/profile/<username>')
