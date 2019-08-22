@@ -5,10 +5,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     search = request.args.get('search')
-    if not search:
-    	return render_template('index.html')
-
-    return 'Hasil search adalah ' + search
+    return render_template('index.html', search=search)
 
 
 # dinamic url with string
