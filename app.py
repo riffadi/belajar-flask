@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, make_response, session, redirect, url_for
+from flask import (Flask, render_template, request, make_response,
+				  session, redirect, url_for, flash)
 
 app = Flask(__name__)
 app.secret_key = 'asdfghjklzxcvbnmqwertyuiop'
@@ -18,11 +19,13 @@ def show_profile(username):
 @app.route('/login', methods=['GET', 'POST'])
 def show_login():
 	if request.method == 'POST':
-		resp = make_response('Email kamu adalah ' + request.form['email'])
-		resp.set_cookie('email_user', request.form['email'])
+		# resp = make_response('Email kamu adalah ' + request.form['email'])
+		# resp.set_cookie('email_user', request.form['email'])
 		session['username'] = request.form['email']
+		flash('Kamu berhasil login!')
+		return redirect(url_for('show_profile', username = request.form['email']))
 
-		return resp
+
 	if 'username' in session:
 		username = session['username']
 		return redirect(url_for('show_profile', username=username))

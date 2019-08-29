@@ -4,6 +4,15 @@
 	<title>Profile</title>
 </head>
 <body>
+	{% with messages = get_flashed_messages()  %}
+	    {% if messages %}
+	    	{% for message in messages %}
+	    		{{message}}
+	    	{% endfor %}
+	    {% endif %}
+	{% endwith %}
+	<hr>
+
 	<h1>Halo, Kamu berada di halaman profile {{username}}</h1>
 	<br>
 	<a href="{{ url_for('logout') }}">LogOut</a>
