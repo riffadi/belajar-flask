@@ -1,5 +1,5 @@
 from flask import (Flask, render_template, request, make_response,
-				  session, redirect, url_for, flash)
+				  session, redirect, url_for, flash, abort)
 
 app = Flask(__name__)
 app.secret_key = 'asdfghjklzxcvbnmqwertyuiop'
@@ -16,11 +16,20 @@ def index():
 def show_profile(username):
     return render_template('profile.html', username=username)
 
+@app.errorhandler(401)
+def page_not_found(e):
+	return render_template('401.html'), 401
+
 @app.route('/login', methods=['GET', 'POST'])
 def show_login():
 	if request.method == 'POST':
 		# resp = make_response('Email kamu adalah ' + request.form['email'])
 		# resp.set_cookie('email_user', request.form['email'])
+		
+		if request.form['password'] == '':
+			abort(401)
+
+
 		session['username'] = request.form['email']
 		flash('Kamu berhasil login!')
 		return redirect(url_for('show_profile', username = request.form['email']))
